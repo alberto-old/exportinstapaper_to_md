@@ -20,6 +20,12 @@ def get_documents_urls(parsed_json):
     return urls
 
 def clean_title(title_set):
+    """Takes the title of a document and remove strange characters such as {, }, ', " and whitespace at
+    the beginning and end of the title
+    
+    Arguments:
+        title_set {string} -- Cleaned up title
+    """
     return repr(title_set).replace('{','').replace('}','').replace('\'','').replace('"','').rstrip('.').strip()
 
 def process_url(url, parsed_json):
@@ -39,11 +45,21 @@ def process_url(url, parsed_json):
     return document
 
 def get_filename_from_title(title):
+    """Generate simpler file name from title
+    
+    Arguments:
+        title {string} -- Simplified title to be used as the markdown filename
+    """
     printable = set(string.ascii_letters)
     printable.add(' ')
     return ''.join(filter(lambda x : x in printable, title)).strip().replace(' ', '_') + '.md'
     
 def process_document(document):
+    """Takes a document and generates the equivalent markdown file
+    
+    Arguments:
+        document {dictionary} -- Dictionary with title, url and list of highlights
+    """
     output_path = get_filename_from_title(document['title'])
     with codecs.open(output_path, 'w', 'utf-8') as f:
         f.write('# ' + document['title'] + '\n')
@@ -53,6 +69,12 @@ def process_document(document):
             f.write(line + '\n')
 
 def process_json(json_file):
+    """Takes an exported Instapaper JSON file and process it in order to generate
+    a markdown file for each document
+    
+    Arguments:
+        json_file {filename} -- JSON filename
+    """
     # open the JSON file and parse it
     with open(json_file, encoding='utf8') as json_data:
         parsed_json = json.load(json_data)
