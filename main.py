@@ -6,7 +6,8 @@ import string
 
 def get_documents_urls(parsed_json):
     """This function takes a JSON file with Instapaper highlights extracted using 
-    'Instapaper highlights exporter' chrome extension and 
+    'Instapaper highlights exporter' chrome extension and generates a list of 
+    the unique URLs in the JSON
     
     Arguments:
         parsed_json {json} -- JSON file with Instapaper highlights
